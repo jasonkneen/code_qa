@@ -1,6 +1,7 @@
 import unittest
 import json
 from app import app
+from unittest.mock import patch
 
 class MCPServerTestCase(unittest.TestCase):
     def setUp(self):
@@ -30,6 +31,19 @@ class MCPServerTestCase(unittest.TestCase):
         response = self.app.post('/mcp/search', data=json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertIn('context', response.json)
+
+    @patch('subprocess.run')
+    def test_merge_optimizations(self, mock_subprocess_run):
+        mock_subprocess_run.return_value.returncode = 0
+        mock_subprocess_run.return_value.stdout = 'Merge successful'
+        mock_subprocess_run.return_value.stderr = ''
+
+        response = self.app.post('/merge_optimizations')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('success', response.json['status'])
+        self.assertIn('Merge completed successfully', response.json['message'])
+
+        mock_subprocess_run.assert_called_once_with(['git', 'merge', 'optimizations'], capture_output=True, text=True)
 
 if __name__ == '__main__':
     unittest.main()
