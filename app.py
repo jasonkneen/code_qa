@@ -13,6 +13,7 @@ import json
 from dotenv import load_dotenv
 from redis import ConnectionPool
 from mcp import MCPServer
+import subprocess
 
 load_dotenv()
 
@@ -258,6 +259,19 @@ def mcp_search():
     # Implement search completions using best practices
     context = generate_context(query, rerank=True)
     return jsonify({'status': 'success', 'context': context})
+
+@app.route('/merge_optimizations', methods=['POST'])
+def merge_optimizations():
+    try:
+        result = subprocess.run(['git', 'merge', 'optimizations'], capture_output=True, text=True)
+        app.logger.info(f"Merge output: {result.stdout}")
+        if result.returncode == 0:
+            return jsonify({'status': 'success', 'message': 'Merge completed successfully'})
+        else:
+            return jsonify({'status': 'error', 'message': result.stderr})
+    except Exception as e:
+        app.logger.error(f"Error during merge: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)})
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
