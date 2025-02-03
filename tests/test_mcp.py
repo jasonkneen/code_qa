@@ -43,7 +43,7 @@ class MCPServerTestCase(unittest.TestCase):
         self.assertIn('success', response.json['status'])
         self.assertIn('Merge completed successfully', response.json['message'])
 
-        mock_subprocess_run.assert_called_once_with(['git', 'merge', 'optimizations'], capture_output=True, text=True)
+        mock_subprocess_run.assert_called_once_with(['git', 'merge', 'feature/optimizations'], capture_output=True, text=True)
 
 if __name__ == '__main__':
     unittest.main()

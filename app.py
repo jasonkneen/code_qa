@@ -263,7 +263,7 @@ def mcp_search():
 @app.route('/merge_optimizations', methods=['POST'])
 def merge_optimizations():
     try:
-        result = subprocess.run(['git', 'merge', 'optimizations'], capture_output=True, text=True)
+        result = subprocess.run(['git', 'merge', 'feature/optimizations'], capture_output=True, text=True)
         app.logger.info(f"Merge output: {result.stdout}")
         if result.returncode == 0:
             return jsonify({'status': 'success', 'message': 'Merge completed successfully'})
