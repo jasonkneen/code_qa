@@ -12,6 +12,7 @@ from openai import OpenAI
 import json
 from dotenv import load_dotenv
 from redis import ConnectionPool
+from mcp import MCPServer
 
 load_dotenv()
 
@@ -236,6 +237,28 @@ def home():
 
     return render_template('query_form.html', results=results)
 
+@app.route('/mcp/store', methods=['POST'])
+def mcp_store():
+    data = request.get_json()
+    # Implement storage logic using the existing database setup
+    # Store data in the appropriate table
+    return jsonify({'status': 'success', 'message': 'Data stored successfully'})
+
+@app.route('/mcp/retrieve', methods=['POST'])
+def mcp_retrieve():
+    data = request.get_json()
+    # Implement retrieval logic using the existing database setup
+    # Retrieve data from the appropriate table
+    return jsonify({'status': 'success', 'data': retrieved_data})
+
+@app.route('/mcp/search', methods=['POST'])
+def mcp_search():
+    data = request.get_json()
+    query = data['query']
+    # Implement search completions using best practices
+    context = generate_context(query, rerank=True)
+    return jsonify({'status': 'success', 'context': context})
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python app.py <codebase_path>")
@@ -246,4 +269,8 @@ if __name__ == "__main__":
     # Setup database
     method_table, class_table = setup_database(codebase_path)
     
+    # Initialize MCP server
+    mcp_server = MCPServer(app)
+    mcp_server.start()
+
     app.run(host='0.0.0.0', port=5001)
