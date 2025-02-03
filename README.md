@@ -1,6 +1,3 @@
-
-
-
 **Update 14th November 2024**: Check the branch [`feature/optimization`](https://github.com/sankalp1999/code_qa/tree/feature/optimization) which runs 2.5x faster than this branch's code (what you saw in the demo video).
 The optimized branch achieves 2.5x faster performance (10-20 seconds range) through two key improvements:
 
@@ -111,6 +108,13 @@ Once the server is running, open a web browser and navigate to `http://localhost
 Use @codebase keyword in queries to fetch context via embeddings 
 Enable re-ranking option to get more relevant results
 
+## MCP Server Integration
+
+The MCP server now supports storage, retrieval/search, and search completions. The following endpoints are available:
+
+- `/mcp/store`: Endpoint for storing data.
+- `/mcp/retrieve`: Endpoint for retrieving data.
+- `/mcp/search`: Endpoint for search completions.
 
 ## Technologies Used
 
@@ -119,7 +123,7 @@ Enable re-ranking option to get more relevant results
 - LanceDB: vector db for storing and searching code embeddings
 - Redis: in-memory data store for caching and session management
 - OpenAI, Jina for chat functionalities and colbert-small-v1 for reranker
-
+- MCP: Model Context Protocol for server integration
 
 ## License
 

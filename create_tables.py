@@ -6,6 +6,7 @@ from lancedb.embeddings import EmbeddingFunctionRegistry
 from lancedb.pydantic import LanceModel, Vector
 import tiktoken
 from dotenv import load_dotenv
+from mcp import MCPClient
 
 load_dotenv()
 
@@ -194,6 +195,10 @@ if __name__ == "__main__":
 
         print("Embedded method data successfully")
         print("Embedded class data successfully")
+
+        # Integrate with MCP server
+        mcp_client = MCPClient()
+        mcp_client.store_data(method_data, class_data)
 
     except Exception as e:
         if codebase_path in db:
